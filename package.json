@@ -1,0 +1,23 @@
+{
+  "name": "websiteoptimization",
+  "version": "1.0.0",
+  "description": "optimize the website to 60fps",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/priii/frontend-nanodegree-mobile-portfolio.git"
+  },
+  "author": "cameron",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/priii/frontend-nanodegree-mobile-portfolio/issues"
+  },
+  "homepage": "https://github.com/priii/frontend-nanodegree-mobile-portfolio#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-imagemin": "^1.0.1"
+  }
+}
