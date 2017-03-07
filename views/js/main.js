@@ -485,15 +485,16 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
   }
   console.log("Average scripting time to generate last 10 frames: " + sum / 10 + "ms");
 }
-
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 // Moves the sliding background pizzas based on scroll position
 // replaced the querySelector by getElementsByClassName
 var items = document.getElementsByClassName('mover');
-
+var latestKnownScroll = 0;
 function updatePositions() {
   frame++;
+  ticking = false; // reset tick to capture the next scroll on scroll
+  var currentScrolly = latestKnownScroll;
   window.performance.mark("mark_start_frame");
   var phase;
   var basicLeft;
@@ -502,9 +503,9 @@ function updatePositions() {
   console.log(tempScrollTop)
   for (var i = 0; i < length ; i++) {
        phase = Math.sin((tempScrollTop)+(i % 5));
-       items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-       //basicLeft = items[i].basicLeft + 100 * phase + 'px';
-       //items[i].style.transform = "translateX(" + basicLeft + ")";
+       //items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+       basicLeft = items[i].basicLeft + 100 * phase + 'px';
+       items[i].style.transform = "translate("+basicLeft +")";
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -515,11 +516,23 @@ function updatePositions() {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
     logAverageFrame(timesToUpdatePosition);
   }
-}
-
+};
+//requestAnimationFrame(updatePositions);
 // runs updatePositions on scroll
-window.addEventListener('scroll', updatePositions);
-
+// the following code for requestAnimationFrame was pulled from the below mentioned tutorial
+//https://www.html5rocks.com/en/tutorials/speed/animations/
+var latestKnownScrolly= 0,
+ ticking = false;
+window.addEventListener('scroll', function(){
+   latestKnownScrolly = window.scrollY;
+   requestTick();
+});
+function requestTick(){
+  if(!ticking){
+    requestAnimationFrame(updatePositions);
+  }
+  ticking = true;
+}
 // Generates the sliding pizzas when the page loads.
 // replaced the querySelector by getElementById
 document.addEventListener('DOMContentLoaded', function() {
