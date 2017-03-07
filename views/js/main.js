@@ -495,10 +495,16 @@ var items = document.getElementsByClassName('mover');
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
+  var phase;
+  var basicLeft;
+  var length = items.length;
   var tempScrollTop = document.body.scrollTop / 1250;
-  for (var i = 0; i < items.length; i++) {
-        var phase = Math.sin((tempScrollTop) + (i % 5));
-        items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  console.log(tempScrollTop)
+  for (var i = 0; i < length ; i++) {
+       phase = Math.sin((tempScrollTop)+(i % 5));
+       items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+       //basicLeft = items[i].basicLeft + 100 * phase + 'px';
+       //items[i].style.transform = "translateX(" + basicLeft + ")";
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -520,15 +526,15 @@ document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
   var movingPizzas1 = document.getElementById('movingPizzas1');
-  for (var i = 0; i < 200; i++) {
-    var elem = document.createElement('img');
-    elem.className = 'mover';
-    elem.src = "images/pizza.png";
-    elem.style.height = "100px";
-    elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
-    elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    movingPizzas1.appendChild(elem);
+      for (var i = 0; i < 35; i++) { // to create animation we need only 35 ! 200 is very large and reduce the number to 35 from 200 ! didnt affect the animation.
+      var elem = document.createElement('img');
+      elem.className = 'mover';
+      elem.src = "images/pizza.png";
+      elem.style.height = "100px";
+      elem.style.width = "73.333px";
+      elem.basicLeft = (i % cols) * s;
+      elem.style.top = (Math.floor(i / cols) * s) + 'px';
+      movingPizzas1.appendChild(elem);
   }
   updatePositions();
 });
