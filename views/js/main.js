@@ -491,6 +491,7 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // replaced the querySelector by getElementsByClassName
 var items = document.getElementsByClassName('mover');
 var latestKnownScroll = 0;
+  var halfScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width) / 2;
 function updatePositions() {
   frame++;
   ticking = false; // reset tick to capture the next scroll on scroll
@@ -500,12 +501,14 @@ function updatePositions() {
   var basicLeft;
   var length = items.length;
   var tempScrollTop = document.body.scrollTop / 1250;
-  console.log(tempScrollTop)
+
+  console.log(halfScreenWidth);
+  // console.log(tempScrollTop)
   for (var i = 0; i < length ; i++) {
        phase = Math.sin((tempScrollTop)+(i % 5));
        //items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-       basicLeft = items[i].basicLeft + 100 * phase + 'px';
-       items[i].style.transform = "translate("+basicLeft +")";
+       basicLeft = items[i].basicLeft - halfScreenWidth + 100 * phase + 'px';// subracting the halfScreenWidth from pizza's starting point! to avoid pizza's starting from the middle of the screen
+       items[i].style.transform = "translate("+basicLeft+")";
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
