@@ -12,6 +12,8 @@
 
 
 img {
+  will-change : transform; /* to boost up the fps*/
+  transform: translateZ(0);
   vertical-align: middle;
 }
 .img-responsive {
