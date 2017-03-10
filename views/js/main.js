@@ -490,24 +490,20 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // Moves the sliding background pizzas based on scroll position
 // replaced the querySelector by getElementsByClassName
 var items = document.getElementsByClassName('mover');
-var latestKnownScroll = 0;
-  var halfScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width) / 2;
+var halfScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width) / 2;
 function updatePositions() {
   frame++;
   ticking = false; // reset tick to capture the next scroll on scroll
-  var currentScrolly = latestKnownScroll;
   window.performance.mark("mark_start_frame");
   var phase;
   var basicLeft;
   var length = items.length;
-  var tempScrollTop = document.body.scrollTop / 1250;
-
-  console.log(halfScreenWidth);
-  // console.log(tempScrollTop)
-  for (var i = 0; i < length ; i++) {
+  var tempScrollTop = latestKnownScrolly / 1250;
+   for (var i = 0; i < length ; i++) {
        phase = Math.sin((tempScrollTop)+(i % 5));
        //items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-       basicLeft = items[i].basicLeft - halfScreenWidth + 100 * phase + 'px';// subracting the halfScreenWidth from pizza's starting point! to avoid pizza's starting from the middle of the screen
+       //((i % 8)*256) instead of using basicLeft doing the calculation directlty; 256 is s ie defined arbitarily the distance of the pizza; 9 is (cols + 1);
+       basicLeft =((i % 8)*256) - halfScreenWidth + 100 * phase + 'px';// subracting the halfScreenWidth from pizza's starting point! to avoid pizza's starting from the middle of the screen
        items[i].style.transform = "translate("+basicLeft+")";
   }
 
@@ -519,7 +515,7 @@ function updatePositions() {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
     logAverageFrame(timesToUpdatePosition);
   }
-};
+}
 //requestAnimationFrame(updatePositions);
 // runs updatePositions on scroll
 // the following code for requestAnimationFrame was pulled from the below mentioned tutorial
@@ -544,11 +540,11 @@ document.addEventListener('DOMContentLoaded', function() {
   var movingPizzas1 = document.getElementById('movingPizzas1');
       for (var i = 0; i < 35; i++) { // to create animation we need only 35 ! 200 is very large and reduce the number to 35 from 200 ! didnt affect the animation.
       var elem = document.createElement('img');
-      elem.className = 'mover';
+      elem.classList.add('mover');//  classList.add() is faster than className
       elem.src = "images/pizza.png";
       elem.style.height = "100px";
       elem.style.width = "73.333px";
-      elem.basicLeft = (i % cols) * s;
+    //  elem.basicLeft = (i % cols) * s;
       elem.style.top = (Math.floor(i / cols) * s) + 'px';
       movingPizzas1.appendChild(elem);
   }
