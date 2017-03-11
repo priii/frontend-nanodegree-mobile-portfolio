@@ -34,7 +34,7 @@ form {
     position: fixed;
     width: 256px;
     z-index: -1;
-    will-change: transform; ///* to boost up the fps*/
+    will-change: left; ///* to boost up the fps*/
     transform: translateZ(0);
 }
 
