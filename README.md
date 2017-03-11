@@ -17,7 +17,7 @@
 4. Added will-change: transform to .mover css class for composite layers and transform : translateZ(0) for older browsers
 5. Reduced the no of moving pizza from 200 to 35 (arbitrary value )
 6. used style.transform instead of style.left to achieve animation.
-7. Used grunt to minify the images.
+7. Used grunt to minify the images and uglify the js and minfy the css.
 
 ### Testing
 
